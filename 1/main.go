@@ -11,7 +11,7 @@ var p = fmt.Println
 func fillChan(n int) <-chan int {
 	ch := make(chan int)
 
-	go func() { 
+	go func() {
 		for i := range n {
 			ch <- i
 		}
