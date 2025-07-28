@@ -75,13 +75,9 @@ func ConcurrentSortHead(m int, files ...io.Reader) ([]string, error) {
 		firstIter := true
 
 		for ch, row := range chans {
-			if firstIter {
+			if firstIter || row < minRow {
 				minRow, minCh = row, ch
 				firstIter = false
-				continue
-			}
-			if row < minRow {
-				minRow, minCh = row, ch
 			}
 		}
 
