@@ -24,10 +24,26 @@ import (
 	"errors"
 )
 
+type Result struct {
+	msg string
+	err error
+}
+
 // fakeDownload simulates downloading from a URL.
-func fakeDownload(url string) error {
-	// Simulate a network operation...
-	return nil
+func fakeDownload(url string) Result {
+	n := rand.IntN(100)
+	wait := time.Duration(n * int(time.Microsecond))
+	time.Sleep(wait)
+
+	if n > 50 {
+		return Result{
+			err: errors.New(fmt.Sprintf("url %s", url)),
+		}
+	}
+
+	return Result{
+		msg: fmt.Sprintf("downloaded %s", url),
+	}
 }
 
 func download(urls []string) error {
