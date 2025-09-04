@@ -29,6 +29,7 @@ This project contains a series of hands-on coding tasks that cover essential Go 
 
 - **[Worker Pool with Goroutines and Channels](Worker%20Pool%20with%20Goroutines%20and%20Channels/)** - Implement a simple worker pool
 - **[Controlled Parallel Execution with Error Aggregation](Controlled%20Parallel%20Execution%20with%20Error%20Aggregation/)** - Manage parallel tasks with error handling
+- **[Concurrent Function Execution with Error Propagation](Concurrent%20Function%20Execution%20with%20Error%20Propagation/)** - Execute functions concurrently and propagate any errors
 
 ### 🔍 Search and Processing
 
@@ -46,6 +47,7 @@ This project contains a series of hands-on coding tasks that cover essential Go 
 - **[repeatFn and take with Context Cancellation](repeatFn%20and%20take%20with%20Context%20Cancellation/)** - Implement functional stream operations
 - **[Duplicating a Stream with tee](Duplicating%20a%20Stream%20with%20tee/)** - Split a stream into multiple outputs
 - **[Flattening Streams of Streams with bridge](Flattening%20Streams%20of%20Streams%20with%20bridge/)** - Flatten nested stream structures
+- **[Ring Buffer with Overwriting Writes](Ring%20Buffer%20with%20Overwriting%20Writes/)** - Implement a circular buffer that overwrites old data when full
 
 ## 🚀 Getting Started
 
@@ -99,6 +101,8 @@ This project contains a series of hands-on coding tasks that cover essential Go 
 - Worker Pool with Goroutines and Channels
 - Concurrent Downloads with Error Aggregation
 - Merging Channels Concurrently
+- Concurrent Function Execution with Error Propagation
+- Ring Buffer with Overwriting Writes
 
 ### Advanced Level
 

@@ -119,3 +119,4 @@ func take(ctx context.Context, in <-chan interface{}, num int) <-chan interface{
 	}()
 	return out
 }
+```

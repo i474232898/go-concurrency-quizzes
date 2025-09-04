@@ -57,3 +57,4 @@ func generator(ctx context.Context, in ...int) <-chan int {
 func squarer(ctx context.Context, in <-chan int) <-chan int {
 	// your code here
 }
+```
