@@ -24,6 +24,7 @@ This project contains a series of hands-on coding tasks that cover essential Go 
 - **[Channel Relay with Context Cancellation](Channel%20Relay%20with%20Context%20Cancellation/)** - Implement `orDone` pattern with context cancellation
 - **[Merging Two Sorted Channels](Merging%20Two%20Sorted%20Channels/)** - Merge sorted data from multiple channels
 - **[Merging Channels Concurrently](Merging%20Channels%20Concurrently/)** - Combine multiple channels into one
+- **[Channel Chaining with inc](Channel%20Chaining%20with%20inc/)** - Create chains of channel transformations
 
 ### 🏗️ Worker Patterns
 
@@ -95,6 +96,7 @@ This project contains a series of hands-on coding tasks that cover essential Go 
 - Channel Relay with Context Cancellation
 - Merging Two Sorted Channels
 - Running a Task with Context Timeout
+- Channel Chaining with inc
 
 ### Intermediate Level
 
