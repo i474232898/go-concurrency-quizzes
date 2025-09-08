@@ -24,7 +24,7 @@ func main() {
 
 	n := 10
 
-  //your code here
+  // your code here
 
 	first <- 0
 	close(first)
