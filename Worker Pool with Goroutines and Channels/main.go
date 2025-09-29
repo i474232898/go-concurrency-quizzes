@@ -23,30 +23,25 @@ func main() {
 		return x * 10
 	}
 	wg.Add(numWorkers)
-	for w := 0; w < numWorkers; w++ {
+	for range numWorkers {
 		go func() {
 			defer wg.Done()
 			worker(multiplier, jobs, results)
 		}()
 	}
-	// lightweight alternative to sync.WaitGroup when you’re just waiting for one goroutine to finish.
-	done := make(chan struct{})
 	go func() {
-		for r := range results {
-			fmt.Println(r)
+		for i := range numJobs {
+			jobs <- i + 1
 		}
-		close(done)
+		close(jobs)
 	}()
-	
-	for j := 1; j <= numJobs; j++ {
-		jobs <- j
-	}
-	close(jobs)
 
-	go func(){
+	go func() {
 		wg.Wait()
 		close(results)
 	}()
 
-	<-done
+	for r := range results {
+		fmt.Println(r)
+	}
 }
