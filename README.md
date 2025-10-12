@@ -25,6 +25,7 @@ This project contains a series of hands-on coding tasks that cover essential Go 
 - **[Merging Two Sorted Channels](Merging%20Two%20Sorted%20Channels/)** - Merge sorted data from multiple channels
 - **[Merging Channels Concurrently](Merging%20Channels%20Concurrently/)** - Combine multiple channels into one
 - **[Channel Chaining with inc](Channel%20Chaining%20with%20inc/)** - Create chains of channel transformations
+- **[<or> – Early Exit Channel from Many](%3Cor%3E%20%E2%80%93%20Early%20Exit%20Channel%20from%20Many/)** - Implement or-channel pattern for early exit from multiple channels
 
 ### 🏗️ Worker Patterns
 
@@ -114,6 +115,7 @@ This project contains a series of hands-on coding tasks that cover essential Go 
 - Ring Buffer with Overwriting Writes
 - Concurrent Task Execution with Semaphore Limiting
 - Custom WaitGroup with Channel Synchronization
+- 'or' – Early Exit Channel from Many
 
 ### Advanced Level
 
