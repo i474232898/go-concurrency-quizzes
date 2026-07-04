@@ -2,7 +2,13 @@
 
 ## Task Description
 
-Implement a simple **worker pool** to run `numJobs` tasks in parallel, using `numWorkers` goroutines which are launched **only once** during the program’s execution.
+Implement a simple **worker pool** to run `numJobs` tasks in parallel, using `numWorkers` goroutines which are launched **only once** during the program's execution.
+
+Data flows in one direction:
+
+```
+main → jobs channel → [workers] → results channel → main
+```
 
 ---
 
@@ -18,11 +24,31 @@ Implement a simple **worker pool** to run `numJobs` tasks in parallel, using `nu
 
 ## 🚀 `main` Function
 
-- Creates:
-  - A `jobs` channel and a `results` channel, each with buffer size `numJobs`.
+- Creates a `jobs` channel and a `results` channel, each with buffer size `numJobs`.
 - Launches exactly `numWorkers` goroutines running the `worker` function, using `multiplier` as the function to apply.
 - Sends integers from `1` to `numJobs` into the `jobs` channel.
-- Reads and prints values from the `results` channel **as they are produced**, concurrently with the workers.
+- Prints each result as it arrives. The main goroutine must block until all results are received and printed — no busy-waiting or sleeps.
+
+---
+
+## 🤔 Things to Consider
+
+- How does a worker know there are no more jobs and it should stop?
+- How does `main` know all results have been sent before it exits?
+- Is the output order guaranteed?
+
+---
+
+## 📤 Expected Output
+
+```
+// possible output (order may vary):
+10
+30
+20
+40
+50
+```
 
 ---
 
@@ -33,8 +59,8 @@ package main
 
 import (
 	"fmt"
-	"sync"
 )
+var p = fmt.Println
 
 func worker(f func(int) int, jobs <-chan int, results chan<- int) {
 	// your code here
@@ -46,7 +72,6 @@ const numWorkers = 3
 func main() {
 	jobs := make(chan int, numJobs)
 	results := make(chan int, numJobs)
-	wg := sync.WaitGroup{}
 
 	multiplier := func(x int) int {
 		return x * 10
