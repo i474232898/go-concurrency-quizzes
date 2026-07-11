@@ -29,7 +29,6 @@ package main
 
 import (
 	"fmt"
-	"sync"
 )
 
 // merge - merges multiple input channels into a single output channel
@@ -52,5 +51,7 @@ func main() {
 	for v := range d {
 		fmt.Println(v)
 	}
+
+	time.Sleep(500 * time.Millisecond)
 }
 ```

@@ -6,36 +6,19 @@ import (
 	"time"
 )
 
-var p = fmt.Println
-
-func fillChan(n int) <-chan int {
-	ch := make(chan int)
-
-	go func() {
-		for i := range n {
-			ch <- i
-		}
-		close(ch)
-	}()
-
-	return ch
-}
-
+// merge - merges multiple input channels into a single output channel
 func merge(cs ...<-chan int) <-chan int {
 	out := make(chan int)
-	var wg sync.WaitGroup
+	wg := sync.WaitGroup{}
 
-	collect := func(ch <-chan int) {
-		for n := range ch {
-			out <- n
-		}
-		wg.Done()
-	}
-
-	wg.Add(len(cs))
-
-	for _, c := range cs {
-		go collect(c)
+	for _, ch := range cs {
+		wg.Add(1)
+		go func(c <-chan int) {
+			defer wg.Done()
+			for d := range c {
+				out <- d
+			}
+		}(ch)
 	}
 
 	go func() {
@@ -46,14 +29,28 @@ func merge(cs ...<-chan int) <-chan int {
 	return out
 }
 
+// fillChan - fills a channel with integers from 0 to n-1
+func fillChan(n int) <-chan int {
+	out := make(chan int)
+	go func() {
+		defer close(out)
+		for i := range n {
+			out <- i
+		}
+	}()
+	return out
+}
+
 func main() {
 	a := fillChan(2) // [0, 1]
 	b := fillChan(3) // [0, 1, 2]
 	c := fillChan(4) // [0, 1, 2, 3]
 
 	d := merge(a, b, c)
+
 	for v := range d {
-		p(v)
+		fmt.Println(v)
 	}
+
 	time.Sleep(500 * time.Millisecond)
 }

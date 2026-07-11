@@ -23,14 +23,13 @@ func main() {
 
 func executeTaskWithTimeout(ctx context.Context) error {
 	ch := make(chan struct{})
-	go func ()  {
+	go func() {
+		defer close(ch)
 		executeTask()
-		ch <- struct{}{}
 	}()
-
 	select {
 	case <-ch:
-		return  nil
+		return nil
 	case <-ctx.Done():
 		return ctx.Err()
 	}

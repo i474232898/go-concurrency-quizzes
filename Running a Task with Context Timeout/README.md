@@ -33,7 +33,7 @@ import (
 	"math/rand"
 	"time"
 )
-
+var p = fmt.Println
 const timeout = 100 * time.Millisecond
 
 func main() {
@@ -42,10 +42,11 @@ func main() {
 
 	err := executeTaskWithTimeout(ctx)
 	if err != nil {
-		panic(err)
+		p("task failed", err)
+		return
 	}
 
-	fmt.Println("task done")
+	p("task done")
 }
 
 func executeTaskWithTimeout(ctx context.Context) error {
