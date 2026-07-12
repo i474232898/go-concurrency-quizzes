@@ -2,14 +2,16 @@ package main
 
 import (
 	"context"
-	"reflect"
+	"fmt"
 )
 
+var p = fmt.Println
+
 func orDone(ctx context.Context, in <-chan interface{}) <-chan interface{} {
-	ch := make(chan interface{})
+	out := make(chan interface{})
 
 	go func() {
-		defer close(ch)
+		defer close(out)
 		for {
 			select {
 			case data, ok := <-in:
@@ -17,8 +19,9 @@ func orDone(ctx context.Context, in <-chan interface{}) <-chan interface{} {
 					return
 				}
 				select {
-				case ch <- data:
+				case out <- data:
 				case <-ctx.Done():
+					return
 				}
 			case <-ctx.Done():
 				return
@@ -26,24 +29,39 @@ func orDone(ctx context.Context, in <-chan interface{}) <-chan interface{} {
 		}
 	}()
 
-	return ch
+	return out
 }
 
 func main() {
+	ctx, cancel := context.WithCancel(context.Background())
 	ch := make(chan interface{})
+
+	// Closed after orDone has received the second value from ch.
+	secondValueTaken := make(chan struct{})
+
 	go func() {
-		for i := 0; i < 3; i++ {
-			ch <- i
-		}
+		ch <- 1
+		ch <- 2
+
+		close(secondValueTaken)
+
 		close(ch)
 	}()
 
-	var res []interface{}
-	for v := range orDone(context.Background(), ch) {
-		res = append(res, v)
+	out := orDone(ctx, ch)
+
+	v := <-out
+	println("received:", v.(int))
+
+	<-secondValueTaken
+
+	cancel()
+
+	_, ok := <-out
+	if ok {
+		// goroutine leak
+		panic("expected out channel to be closed")
 	}
 
-	if !reflect.DeepEqual(res, []interface{}{0, 1, 2}) {
-		panic("wrong code")
-	}
+	println("orDone exited successfully")
 }
